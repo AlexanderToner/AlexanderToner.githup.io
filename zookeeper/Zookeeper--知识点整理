@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="Zookeeper–知识点整理[toc] 前言最近在准备面试，看到简章中 的要求，熟悉zookeeper,扪心自问一下，发现对 zookeeper 的了解知之甚少，只知道Zookeeper 可以被用作注册中心。 Zookeeper 是 Hadoop 生态系统的一员；Zookeeper 集群有高性能和高容错性，以及简单对 CAP 的引申，然而对于 zookeeper 更多的了解就不知道了。">
+<meta name="description" content="[toc] 前言最近在准备面试，看到简章中 的要求，熟悉zookeeper,扪心自问一下，发现对 zookeeper 的了解知之甚少，只知道Zookeeper 可以被用作注册中心。 Zookeeper 是 Hadoop 生态系统的一员；Zookeeper 集群有高性能和高容错性，以及简单对 CAP 的引申，然而对于 zookeeper 更多的了解就不知道了。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Zookeeper--知识点整理">
 <meta property="og:url" content="http://iamtomer.com/zookeeper/Zookeeper--%E7%9F%A5%E8%AF%86%E7%82%B9%E6%95%B4%E7%90%86">
 <meta property="og:site_name" content="toner的个人博客">
-<meta property="og:description" content="Zookeeper–知识点整理[toc] 前言最近在准备面试，看到简章中 的要求，熟悉zookeeper,扪心自问一下，发现对 zookeeper 的了解知之甚少，只知道Zookeeper 可以被用作注册中心。 Zookeeper 是 Hadoop 生态系统的一员；Zookeeper 集群有高性能和高容错性，以及简单对 CAP 的引申，然而对于 zookeeper 更多的了解就不知道了。">
+<meta property="og:description" content="[toc] 前言最近在准备面试，看到简章中 的要求，熟悉zookeeper,扪心自问一下，发现对 zookeeper 的了解知之甚少，只知道Zookeeper 可以被用作注册中心。 Zookeeper 是 Hadoop 生态系统的一员；Zookeeper 集群有高性能和高容错性，以及简单对 CAP 的引申，然而对于 zookeeper 更多的了解就不知道了。">
 <meta property="og:locale" content="zh">
 <meta property="article:published_time" content="2020-05-31T12:46:25.000Z">
-<meta property="article:modified_time" content="2020-06-08T09:30:06.293Z">
+<meta property="article:modified_time" content="2020-06-08T09:49:39.375Z">
 <meta property="article:author" content="Toner">
 <meta property="article:tag" content="zookeeper">
 <meta name="twitter:card" content="summary">
@@ -177,62 +177,6 @@
 <nav class="site-nav">
   
 
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/%20" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            Home
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-about">
-          <a href="/about/%20" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
-            
-            About
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/%20" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            Tags
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-categories">
-          <a href="/categories/%20" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
-            
-            Categories
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives/%20" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            Archives
-          </a>
-        </li>
-      
-
-      
-    </ul>
   
 
   
@@ -357,7 +301,7 @@
       
 
       
-        <h1 id="Zookeeper–知识点整理"><a href="#Zookeeper–知识点整理" class="headerlink" title="Zookeeper–知识点整理"></a>Zookeeper–知识点整理</h1><p>[toc]</p>
+        <p>[toc]</p>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>最近在准备面试，看到简章中 的要求，<code>熟悉zookeeper</code>,扪心自问一下，发现对 zookeeper 的了解知之甚少，只知道Zookeeper 可以被用作注册中心。 Zookeeper 是 Hadoop 生态系统的一员；Zookeeper 集群有高性能和高容错性，以及简单对 CAP 的引申，然而对于 zookeeper 更多的了解就不知道了。</p>
 <a id="more"></a>
 
@@ -498,22 +442,6 @@
       
 
       
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/uncategorized/hello-world" rel="prev" title="Hello World">
-                Hello World <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
 
       
       
@@ -584,9 +512,9 @@
             
               <div class="site-state-item site-state-posts">
               
-                <a href="/archives/%20%7C%7C%20archive">
+                <a href="/archives">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">1</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -641,7 +569,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Zookeeper–知识点整理"><span class="nav-number">1.</span> <span class="nav-text">Zookeeper–知识点整理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Zab-协议"><span class="nav-number">1.2.</span> <span class="nav-text">Zab 协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#zookeeper-概览"><span class="nav-number">1.3.</span> <span class="nav-text">zookeeper 概览</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#会话（Session）"><span class="nav-number">1.3.1.</span> <span class="nav-text">会话（Session）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Znode"><span class="nav-number">1.3.2.</span> <span class="nav-text">Znode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#版本"><span class="nav-number">1.3.3.</span> <span class="nav-text">版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Watcher（事件监听器）"><span class="nav-number">1.3.4.</span> <span class="nav-text">Watcher（事件监听器）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ACL"><span class="nav-number">1.3.5.</span> <span class="nav-text">ACL</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用"><span class="nav-number">1.4.</span> <span class="nav-text">应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#发布订阅"><span class="nav-number">1.4.1.</span> <span class="nav-text">发布订阅</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命名服务"><span class="nav-number">1.4.2.</span> <span class="nav-text">命名服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#协调分布式事务"><span class="nav-number">1.4.3.</span> <span class="nav-text">协调分布式事务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分布式锁"><span class="nav-number">1.4.4.</span> <span class="nav-text">分布式锁</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.5.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">1.6.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Zab-协议"><span class="nav-text">Zab 协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#zookeeper-概览"><span class="nav-text">zookeeper 概览</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#会话（Session）"><span class="nav-text">会话（Session）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Znode"><span class="nav-text">Znode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#版本"><span class="nav-text">版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Watcher（事件监听器）"><span class="nav-text">Watcher（事件监听器）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ACL"><span class="nav-text">ACL</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用"><span class="nav-text">应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#发布订阅"><span class="nav-text">发布订阅</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命名服务"><span class="nav-text">命名服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#协调分布式事务"><span class="nav-text">协调分布式事务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分布式锁"><span class="nav-text">分布式锁</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
