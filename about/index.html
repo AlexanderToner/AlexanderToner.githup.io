@@ -395,6 +395,16 @@
           
 
           
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/AlexanderToner" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
 
           
           
@@ -636,17 +646,17 @@
       function renderGitment(){
         var gitment = new Gitmint({
             id: window.location.pathname, 
-            owner: 'AlexanderToner# MUST HAVE, Your Github ID',
-            repo: 'gitment-comments# MUST HAVE, The repo you use to store Gitment comments',
+            owner: '35064945',
+            repo: 'https://github.com/AlexanderToner/gitment-comments',
             
             lang: "zh-Hans" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
             
             oauth: {
             
             
-                client_secret: '3e938a6e9c34773ce2f1114d984719ae53b7d8b1# EITHER this or proxy_gateway, Github access secret token for the Gitment',
+                client_secret: '3e938a6e9c34773ce2f1114d984719ae53b7d8b1',
             
-                client_id: '0b08d9c5d3745dac567f# MUST HAVE, Github client id for the Gitment'
+                client_id: '0b08d9c5d3745dac567f'
             }});
         gitment.render('gitment-container');
       }
