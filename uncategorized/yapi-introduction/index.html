@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="title: Yapi 使用文档date: 2020-07-021 09:52:11tags:  yapicategories: yapi   部署Yapi 内网部署总结起来和把大象装进冰箱一样简单。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="yapi-introduction">
+<meta property="og:url" content="http://iamtomer.com/uncategorized/yapi-introduction/index.html">
+<meta property="og:site_name" content="toner的个人博客">
+<meta property="og:description" content="title: Yapi 使用文档date: 2020-07-021 09:52:11tags:  yapicategories: yapi   部署Yapi 内网部署总结起来和把大象装进冰箱一样简单。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://iamtomer.com/Users/toner/Documents/hexoWorkSpace/source/images/655292-43f22841e25cb22e.png">
+<meta property="og:image" content="http://iamtomer.com/Users/toner/Documents/hexoWorkSpace/source/images/image-20200713192559930.png">
+<meta property="og:image" content="http://iamtomer.com/Users/toner/Documents/hexoWorkSpace/source/images/image-20200713193719229.png">
+<meta property="og:image" content="http://iamtomer.com/Users/toner/Documents/hexoWorkSpace/source/images/image-20200713193211083.png">
+<meta property="og:image" content="http://iamtomer.com/Users/toner/Documents/hexoWorkSpace/source/images/image-20200713194044506.png">
+<meta property="article:published_time" content="2020-07-21T09:16:16.277Z">
+<meta property="article:modified_time" content="2020-07-21T09:16:16.278Z">
+<meta property="article:author" content="Toner">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="大数据">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://iamtomer.com/Users/toner/Documents/hexoWorkSpace/source/images/655292-43f22841e25cb22e.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://iamtomer.com/uncategorized/yapi-introduction/"/>
+
+
+
+
+
+  <title>yapi-introduction | toner的个人博客</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">toner的个人博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://iamtomer.com/uncategorized/yapi-introduction/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Toner">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://wx.qlogo.cn/mmopen/vi_32/25fsGytbXKhewNiaoeI1yvfHWeV7ib7FfvmkO6bw2Azb7A6IkZUzXRmeRkkTH8UumIbhia6eZUP0EakQHfZubzU9w/132">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="toner的个人博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">yapi-introduction</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-07-21T17:16:16+08:00">
+                2020-07-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/uncategorized/yapi-introduction/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/uncategorized/yapi-introduction/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<p>title: Yapi 使用文档<br>date: 2020-07-021 09:52:11<br>tags:</p>
+<ul>
+<li>yapi<br>categories:</li>
+<li>yapi</li>
+</ul>
+<hr>
+<h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><p>Yapi 内网部署总结起来和把大象装进冰箱一样简单。</p>
+<a id="more"></a>
+<p>以下部署环境：node(7.6+)，mongodb(2.6+)</p>
+<h3 id="方式一：可视化部署-推荐"><a href="#方式一：可视化部署-推荐" class="headerlink" title="方式一：可视化部署[推荐]"></a>方式一：可视化部署[推荐]</h3><p>①安装 yapi：执行 yapi server 启动可视化部署程序</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install -g yapi-cli --registry https://registry.npm.taobao.org</span><br><span class="line">yapi server</span><br></pre></td></tr></table></figure>
+
+<p>②配置</p>
+<p>输入相应的配置和点击开始部署，就能完成整个网站的部署。</p>
+<p><img src="/Users/toner/Documents/hexoWorkSpace/source/images/655292-43f22841e25cb22e.png" alt="img"></p>
+<p>③启动：</p>
+<p>执行 node/{网站路径/server/app.js} 启动服务器。在浏览器打开指定url, 点击登录输入您刚才设置的管理员邮箱，默认密码(ymfe.org) 登录系统（默认密码可在个人中心修改）</p>
+<h3 id="方式二：命令行部署"><a href="#方式二：命令行部署" class="headerlink" title="方式二：命令行部署"></a>方式二：命令行部署</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># ①安装</span></span></span><br><span class="line">mkdir yapi</span><br><span class="line">cd yapi</span><br><span class="line">git clone https://github.com/YMFE/yapi.git vendors //或者下载 zip 包解压到 vendors 目录（clone 整个仓库大概 140+ M，可以通过 `git clone --depth=1 https://github.com/YMFE/yapi.git vendors` 命令减少，大概 10+ M）</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ②配置</span></span><br><span class="line">cp vendors/config_example.json ./config.json //复制完成后请修改相关配置</span><br><span class="line">vi config.json</span><br><span class="line">&#123;</span><br><span class="line">   <span class="attr">"port"</span>: <span class="string">"3000"</span>,</span><br><span class="line">   <span class="attr">"adminAccount"</span>: <span class="string">"admin@admin.com"</span>,</span><br><span class="line">   <span class="attr">"db"</span>: &#123;</span><br><span class="line">      <span class="attr">"servername"</span>: <span class="string">"192.168.50.123"</span>,</span><br><span class="line">      <span class="attr">"DATABASE"</span>: <span class="string">"sys"</span>,</span><br><span class="line">      <span class="attr">"port"</span>: <span class="string">"27017"</span>,</span><br><span class="line">      <span class="attr">"user"</span>:<span class="string">"sys-user"</span>,</span><br><span class="line">      <span class="attr">"pass"</span>:<span class="string">"1qazse4"</span></span><br><span class="line">   &#125;,</span><br><span class="line">   <span class="attr">"mail"</span>: &#123;</span><br><span class="line">      <span class="attr">"enable"</span>: <span class="literal">false</span>,</span><br><span class="line">      <span class="attr">"host"</span>: <span class="string">"smtp.163.com"</span>,</span><br><span class="line">      <span class="attr">"port"</span>: <span class="number">465</span>,</span><br><span class="line">      <span class="attr">"from"</span>: <span class="string">"***@163.com"</span>,</span><br><span class="line">      <span class="attr">"auth"</span>: &#123;</span><br><span class="line">         <span class="attr">"user"</span>: <span class="string">"***@163.com"</span>,</span><br><span class="line">         <span class="attr">"pass"</span>: <span class="string">"*****"</span></span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># ③初始化后启动</span></span></span><br><span class="line">cd vendors</span><br><span class="line">npm install --production --registry https://registry.npm.taobao.org</span><br><span class="line">npm run install-server //安装程序会初始化数据库索引和管理员账号，管理员账号名可在 config.json 配置</span><br><span class="line">node server/app.js //启动服务器后，请访问 127.0.0.1:&#123;config.json配置的端口&#125;，初次运行会有个编译的过程，请耐心等候</span><br></pre></td></tr></table></figure>
+
+<h2 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h2><h3 id="Easyapi"><a href="#Easyapi" class="headerlink" title="Easyapi"></a>Easyapi</h3><p><strong>第一步</strong>：安装插件</p>
+<p><img src="/Users/toner/Documents/hexoWorkSpace/source/images/image-20200713192559930.png" alt="image-20200713192559930"></p>
+<p><strong>第二步</strong>：配置 token</p>
+<p>获取 token</p>
+<p><img src="/Users/toner/Documents/hexoWorkSpace/source/images/image-20200713193719229.png" alt="image-20200713193719229"></p>
+<p>配置 token</p>
+<p><img src="/Users/toner/Documents/hexoWorkSpace/source/images/image-20200713193211083.png" alt="image-20200713193211083"></p>
+<p>插件使用方式：</p>
+<ol>
+<li>打开spring项目中的Controller文件或者在IDEA的左边项目文件区域选择文件或者文件夹 使用快捷键”alt shift E(windows)/ctrl E(mac)” 然后选择要导出的API,选择导出渠道为yapi 点击[✔]按钮或者按回车键完成导出</li>
+<li>打开spring项目中的Controller文件 右键文件内容选择generate…或者用”[Alt + Insert]/<a href="快捷键可能不一样">Ctrl+Enter</a>“ 然后选择”ExportYapi”</li>
+<li>在IDEA的左边项目文件区域选择文件或者文件夹 鼠标点击最上方[Code -&gt; ExportYapi]</li>
+<li>鼠标点击最上方[Code -&gt; YapiDashBoard] 然后就可以用鼠标将左边的API拖动到右边yapi目录中</li>
+</ol>
+<h3 id="cross-request"><a href="#cross-request" class="headerlink" title="cross-request"></a>cross-request</h3><p>cross-request 赋予一个 html 页面跨域请求能力的 Chrome 插件，该扩展仅支持 YApi 接口管理平台</p>
+<p>链接: <a href="https://links.jianshu.com/go?to=https%3A%2F%2Fpan.baidu.com%2Fs%2F102WqqNnrDawgCBq184daWQ" target="_blank" rel="noopener">https://pan.baidu.com/s/102WqqNnrDawgCBq184daWQ</a><br> 提取码: 6a43<br> 下载完成后解压为crossRequest文件夹<br> 2）打开浏览器扩展程序<a href="https://links.jianshu.com/go?to=chrome%3A%2F%2Fextensions%2F" target="_blank" rel="noopener">chrome://extensions/</a><br> 3）打开浏览器扩展程序的开发者模式：如图：</p>
+<p><img src="/Users/toner/Documents/hexoWorkSpace/source/images/image-20200713194044506.png" alt="image-20200713194044506"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Java/Java-Stream/" rel="next" title="Lambda的 Stream 的接口方法使用">
+                <i class="fa fa-chevron-left"></i> Lambda的 Stream 的接口方法使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://wx.qlogo.cn/mmopen/vi_32/25fsGytbXKhewNiaoeI1yvfHWeV7ib7FfvmkO6bw2Azb7A6IkZUzXRmeRkkTH8UumIbhia6eZUP0EakQHfZubzU9w/132"
+                alt="Toner" />
+            
+              <p class="site-author-name" itemprop="name">Toner</p>
+              <p class="site-description motion-element" itemprop="description">toner的个人博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/AlexanderToner" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#部署"><span class="nav-text">部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#方式一：可视化部署-推荐"><span class="nav-text">方式一：可视化部署[推荐]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方式二：命令行部署"><span class="nav-text">方式二：命令行部署</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#插件"><span class="nav-text">插件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Easyapi"><span class="nav-text">Easyapi</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cross-request"><span class="nav-text">cross-request</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2019 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Toner</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count"></span>
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=66565211";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: '35064945',
+            repo: 'gitment-comments',
+            
+            lang: "zh-Hans" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '3e938a6e9c34773ce2f1114d984719ae53b7d8b1',
+            
+                client_id: '0b08d9c5d3745dac567f'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

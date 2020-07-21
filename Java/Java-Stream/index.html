@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Java,Stream," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="中间操作parallelparallelStream其实就是一个并行执行的流.它通过默认的ForkJoinPool,可能提高你的多线程任务的速度">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lambda的 Stream 的接口方法使用">
+<meta property="og:url" content="http://iamtomer.com/Java/Java-Stream/index.html">
+<meta property="og:site_name" content="toner的个人博客">
+<meta property="og:description" content="中间操作parallelparallelStream其实就是一个并行执行的流.它通过默认的ForkJoinPool,可能提高你的多线程任务的速度">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://iamtomer.com/images/image-20200707175638028.png">
+<meta property="og:image" content="http://iamtomer.com/images/image-20200707175941236.png">
+<meta property="article:published_time" content="2020-07-21T06:38:00.000Z">
+<meta property="article:modified_time" content="2020-07-21T09:21:07.779Z">
+<meta property="article:author" content="Toner">
+<meta property="article:tag" content="Java">
+<meta property="article:tag" content="Stream">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://iamtomer.com/images/image-20200707175638028.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://iamtomer.com/Java/Java-Stream/"/>
+
+
+
+
+
+  <title>Lambda的 Stream 的接口方法使用 | toner的个人博客</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">toner的个人博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://iamtomer.com/Java/Java-Stream/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Toner">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="https://wx.qlogo.cn/mmopen/vi_32/25fsGytbXKhewNiaoeI1yvfHWeV7ib7FfvmkO6bw2Azb7A6IkZUzXRmeRkkTH8UumIbhia6eZUP0EakQHfZubzU9w/132">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="toner的个人博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Lambda的 Stream 的接口方法使用</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-07-21T14:38:00+08:00">
+                2020-07-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/Java/Java-Stream/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count gitment-comments-count" data-xid="/Java/Java-Stream/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="中间操作"><a href="#中间操作" class="headerlink" title="中间操作"></a>中间操作</h2><h3 id="parallel"><a href="#parallel" class="headerlink" title="parallel"></a>parallel</h3><p>parallelStream其实就是一个并行执行的流.它通过默认的ForkJoinPool,可能提高你的多线程任务的速度</p>
+<a id="more"></a>
+
+<h3 id="filter"><a href="#filter" class="headerlink" title="filter"></a>filter</h3><p>返回一个只包含满足<code>predicate</code>条件元素的<code>Stream</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 保留长度等于3的字符串</span></span><br><span class="line">Stream&lt;String&gt; stream= Stream.of(<span class="string">"I"</span>, <span class="string">"love"</span>, <span class="string">"you"</span>, <span class="string">"too"</span>);</span><br><span class="line">stream.filter(str -&gt; str.length()==<span class="number">3</span>).forEach(str -&gt; System.out.println(str));<span class="comment">//you	too</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="map-flatMap"><a href="#map-flatMap" class="headerlink" title="map/flatMap"></a>map/flatMap</h3><p><strong>map</strong>:回一个对当前所有元素执行执行<code>mapper</code>之后的结果组成的<code>Stream</code>。直观的说，就是对每个元素按照某种操作进行转换，转换前后<code>Stream</code>中元素的个数不会改变，但元素的类型取决于转换之后的类型。</p>
+<p><strong>flatMap</strong> :对每个元素执行<code>mapper</code>指定的操作，并用所有<code>mapper</code>返回的<code>Stream</code>中的元素组成一个新的<code>Stream</code>作为最终返回结果。通俗的讲<code>flatMap()</code>的作用就相当于把原<em>stream</em>中的所有元素都”摊平”之后组成的<code>Stream</code>，转换前后元素的个数和类型都可能会改变。</p>
+<p><img src="/images/image-20200707175638028.png" alt="image-20200707175638028"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;String&gt; stream　= Stream.of(<span class="string">"I"</span>, <span class="string">"love"</span>, <span class="string">"you"</span>, <span class="string">"too"</span>);</span><br><span class="line">stream.map(str -&gt; str.toUpperCase()).forEach(str -&gt; System.out.println(str));<span class="comment">//I	LOVE	YOU	TOO</span></span><br><span class="line"></span><br><span class="line">Stream&lt;List&lt;Integer&gt;&gt; stream = Stream.of(Arrays.asList(<span class="number">1</span>,<span class="number">2</span>), Arrays.asList(<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>));</span><br><span class="line">stream.flatMap(list -&gt; list.stream()).forEach(i -&gt; System.out.println(i));<span class="comment">//1	2	3	4	5</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="peek"><a href="#peek" class="headerlink" title="peek"></a>peek</h3><p><strong>peek</strong>：生成一个包含原Stream的所有元素的新Stream，同时会提供一个消费函数（Consumer实例），新Stream每个元素被消费的时候都会执行给定的消费函数；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="limit-skip"><a href="#limit-skip" class="headerlink" title="limit /skip"></a>limit /skip</h3><p><code>limit</code>用于限制获取多少个结果，与数据库中的<code>limit</code>作用类似</p>
+<p><code>skip</code>返回一个丢弃原Stream的前N个元素后剩下元素组成的新Stream，如果原Stream中包含的元素个数小于N，那么返回空Stream；</p>
+<p><img src="/images/image-20200707175941236.png" alt="image-20200707175941236"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;String&gt; stream　= Stream.of(<span class="string">"I"</span>, <span class="string">"love"</span>, <span class="string">"you"</span>, <span class="string">"too"</span>);</span><br><span class="line">stream.limit(<span class="number">3</span>).forEach(str -&gt; System.out.println(str));<span class="comment">//I	love	you</span></span><br><span class="line"></span><br><span class="line">stream.skip(<span class="number">3</span>).forEach(str -&gt; System.out.println(str));<span class="comment">//too</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="distinct-concat"><a href="#distinct-concat" class="headerlink" title="distinct /concat"></a>distinct /concat</h3><p><code>distinct</code>用于剔除重复，与数据库中的<code>distinct</code>用法一致。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;String&gt; stream= Stream.of(<span class="string">"I"</span>, <span class="string">"love"</span>, <span class="string">"you"</span>, <span class="string">"too"</span>, <span class="string">"too"</span>);</span><br><span class="line">stream.distinct().forEach(str -&gt; System.out.print(str+<span class="string">"\t"</span>));<span class="comment">//I	love	you	too</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="sorted"><a href="#sorted" class="headerlink" title="sorted"></a>sorted</h3><p>排序函数有两个，一个是用自然顺序排序，一个是使用自定义比较器排序</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;String&gt; stream= Stream.of(<span class="string">"I"</span>, <span class="string">"love"</span>, <span class="string">"you"</span>, <span class="string">"too"</span>);</span><br><span class="line">stream.sorted((str1, str2) -&gt; str1.length()-str2.length()).forEach(str -&gt; System.out.println(str));</span><br></pre></td></tr></table></figure>
+
+<h3 id="sequential-unordered"><a href="#sequential-unordered" class="headerlink" title="sequential() /unordered()"></a>sequential() /unordered()</h3><h2 id="结束操作"><a href="#结束操作" class="headerlink" title="结束操作"></a>结束操作</h2><h3 id="collect-toArray"><a href="#collect-toArray" class="headerlink" title="collect/toArray"></a>collect/toArray</h3><h3 id="count-max-min"><a href="#count-max-min" class="headerlink" title="count/max/min"></a>count/max/min</h3><p><code>min</code>可以对整型流求最小值，返回<code>OptionalInt</code>。<br><code>max</code>可以对整型流求最大值，返回<code>OptionalInt</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Integer maxNumber = Stream.of(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>).max(Comparator.comparing(Integer::valueOf)).get();</span><br><span class="line">Integer minNumber = Stream.of(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>).min(Comparator.comparing(Integer::valueOf)).get();</span><br></pre></td></tr></table></figure>
+
+<h3 id="forEach-forEachOrdered"><a href="#forEach-forEachOrdered" class="headerlink" title="forEach/forEachOrdered"></a>forEach/forEachOrdered</h3><p><strong>forEach</strong>:作用是对容器中的每个元素执行<code>action</code>指定的动作，也就是对元素进行遍历</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用Stream.forEach()迭代</span></span><br><span class="line">Stream&lt;String&gt; stream = Stream.of(<span class="string">"I"</span>, <span class="string">"love"</span>, <span class="string">"you"</span>, <span class="string">"too"</span>);</span><br><span class="line">stream.forEach(str -&gt; System.out.println(str));</span><br></pre></td></tr></table></figure>
+
+<h3 id="anyMatch、-allMatch、-noneMatch、-findFirst、-findAny"><a href="#anyMatch、-allMatch、-noneMatch、-findFirst、-findAny" class="headerlink" title="anyMatch、 allMatch、 noneMatch、 findFirst、 findAny"></a>anyMatch、 allMatch、 noneMatch、 findFirst、 findAny</h3><p>这些操作都是终止操作，且都是短路操作。<br><code>allMatch</code>：Stream 中全部元素符合传入的 predicate，返回 true，只要有一个不满足就返回false;<br><code>anyMatch</code>：Stream 中只要有一个元素符合传入的 predicate，返回 true。只要有一个满足就返回true；<br><code>noneMatch</code>：Stream 中没有一个元素符合传入的 predicate，返回 true。只要有一个满足就返回false；<br><code>findFirst</code>：找到第一个元素。找到了就直接返回，不在遍历后面元素。<br><code>findAny</code>：找到任何一个元素就会返回。</p>
+<h2 id="Collectors"><a href="#Collectors" class="headerlink" title="Collectors"></a>Collectors</h2><p><code>Collectors</code> 提供了一系列的静态方法供我们使用，通常情况我们静态导入即可使用</p>
+<h3 id="类型归纳"><a href="#类型归纳" class="headerlink" title="类型归纳"></a>类型归纳</h3><p>作用是将元素分别归纳进可变容器 <code>List</code>、<code>Map</code>、<code>Set</code>、<code>Collection</code> 或者<code>ConcurrentMap</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Collectors.toList();</span><br><span class="line">Collectors.toMap();</span><br><span class="line">Collectors.toSet();</span><br><span class="line">Collectors.toCollection();</span><br><span class="line">Collectors.toConcurrentMap();</span><br></pre></td></tr></table></figure>
+
+<h3 id="joining"><a href="#joining" class="headerlink" title="joining"></a>joining</h3><p>将元素以某种规则连接起来。该方法有三种重载<br><code>joining()</code><br><code>joining(CharSequence delimiter)</code><br> <code>joining(CharSequence delimiter,CharSequence prefix,CharSequence suffix)</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"> List&lt;String&gt; servers = Arrays.asList(<span class="keyword">new</span> String[]&#123;<span class="string">"Felordcn"</span>,<span class="string">"Tomcat"</span>,<span class="string">"Jetty"</span>,<span class="string">"Undertow"</span>,<span class="string">"Resin"</span>&#125;)</span><br><span class="line"><span class="comment">//   输出 FelordcnTomcatJettyUndertowResin</span></span><br><span class="line"> servers.stream().collect(Collectors.joining());</span><br><span class="line"></span><br><span class="line"> <span class="comment">//   输出 Felordcn,Tomcat,Jetty,Undertow,Resin</span></span><br><span class="line"> servers.stream().collect(Collectors.joining(<span class="string">","</span> ));</span><br><span class="line"></span><br><span class="line"> <span class="comment">//   输出 [Felordcn,Tomcat,Jetty,Undertow,Resin]</span></span><br><span class="line"> servers.stream().collect(Collectors.joining(<span class="string">","</span>, <span class="string">"["</span>, <span class="string">"]"</span>));</span><br></pre></td></tr></table></figure>
+
+<h3 id="collectingAndThen"><a href="#collectingAndThen" class="headerlink" title="collectingAndThen"></a>collectingAndThen</h3><p>该方法先执行了一个归纳操作，然后再对归纳的结果进行 <code>Function</code> 函数处理输出一个新的结果。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 比如我们将servers joining 然后转成大写，结果为： FELORDCN,TOMCAT,JETTY,UNDERTOW,RESIN   </span></span><br><span class="line">servers.stream.collect(Collectors.collectingAndThen(Collectors.joining(<span class="string">","</span>), String::toUpperCase));</span><br></pre></td></tr></table></figure>
+
+<h3 id="groupingBy"><a href="#groupingBy" class="headerlink" title="groupingBy"></a>groupingBy</h3><p>按照条件对元素进行分组，和 <strong>SQL</strong> 中的 <code>group by</code> 用法有异曲同工之妙，通常也建议使用 <strong>Java</strong> 进行分组处理以减轻数据库压力。<code>groupingBy</code> 也有三个重载方法 我们将 <code>servers</code> 按照长度进行分组:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 按照字符串长度进行分组    符合条件的元素将组成一个 List 映射到以条件长度为key 的 Map&lt;Integer, List&lt;String&gt;&gt; 中</span></span><br><span class="line">servers.stream.collect(Collectors.groupingBy(String::length))</span><br><span class="line"><span class="comment">//Map&lt;Integer, Set&lt;String&gt;&gt;</span></span><br><span class="line">servers.stream.collect(Collectors.groupingBy(String::length, Collectors.toSet()))</span><br><span class="line"><span class="comment">//提供一个同步 Map</span></span><br><span class="line">servers.stream.collect(Collectors.groupingBy(String::length,HashMap::<span class="keyword">new</span>, Collectors.toSet()));</span><br></pre></td></tr></table></figure>
+
+<h3 id="partitioningBy"><a href="#partitioningBy" class="headerlink" title="partitioningBy"></a>partitioningBy</h3><h3 id="counting"><a href="#counting" class="headerlink" title="counting"></a>counting</h3><h3 id="maxBy-minBy"><a href="#maxBy-minBy" class="headerlink" title="maxBy/minBy"></a>maxBy/minBy</h3><p>这两个方法分别提供了查找大小元素的操作，它们基于比较器接口 <code>Comparator</code> 来比较 ，返回的是一个 <code>Optional</code> 对象。 我们来获取 <code>servers</code> 中最小长度的元素:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// Jetty  </span></span><br><span class="line">servers.stream.collect(Collectors.minBy(Comparator.comparingInt(String::length)));</span><br></pre></td></tr></table></figure>
+
+<h3 id="summingInt-Double-Long"><a href="#summingInt-Double-Long" class="headerlink" title="summingInt/Double/Long"></a>summingInt/Double/Long</h3><p>用来做累加计算。计算元素某个属性的总和,类似 <strong>Mysql</strong> 的 <code>sum</code> 函数，比如计算各个项目的盈利总和、计算本月的全部工资总和等等。我们这里就计算一下 <code>servers</code> 中字符串的长度之和 （为了举例不考虑其它写法）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 总长度 32 </span></span><br><span class="line">servers.stream.collect(Collectors.summingInt(s -&gt; s.length()));</span><br></pre></td></tr></table></figure>
+
+<h3 id="summarizingInt-Double-Long"><a href="#summarizingInt-Double-Long" class="headerlink" title="summarizingInt/Double/Long"></a>summarizingInt/Double/Long</h3><p>如果我们对其他的操作结果都要怎么办？难不成我们搞多个 <code>Stream</code>  流吗？ 所以就有<code>summarizingInt</code>、<code>summarizingDouble</code>、<code>summarizingLong</code>  三个方法。 这三个方法通过对元素某个属性的提取，会返回对元素该属性的统计数据对象，分别对应 <code>IntSummaryStatistics</code>、<code>DoubleSummaryStatistics</code>、<code>LongSummaryStatistics</code>。我们对 <code>servers</code> 中元素的长度进行统计</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">DoubleSummaryStatistics doubleSummaryStatistics = servers.stream.collect(Collectors.summarizingDouble(String::length));</span><br><span class="line">  <span class="comment">// &#123;count=5, sum=32.000000, min=5.000000, average=6.400000, max=8.000000&#125;</span></span><br><span class="line">System.out.println(<span class="string">"doubleSummaryStatistics.toString() = "</span> + doubleSummaryStatistics.toString());</span><br></pre></td></tr></table></figure>
+
+<p>结果 <code>DoubleSummaryStatistics</code> 中包含了 <strong>总数，总和，最小值，最大值，平均值</strong> 五个指标。</p>
+<h3 id="mapping"><a href="#mapping" class="headerlink" title="mapping"></a>mapping</h3><p>该方法是先对元素使用 <code>Function</code>  进行再加工操作，然后用另一个<code>Collector</code> 归纳。比如我们先去掉 <code>servers</code> 中元素的首字母，然后将它们装入 <code>List</code> 。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// [elordcn, omcat, etty, ndertow, esin]</span></span><br><span class="line">servers.stream.collect(Collectors.mapping(s -&gt; s.substring(<span class="number">1</span>), Collectors.toList()));</span><br></pre></td></tr></table></figure>
+
+<p>有点类似 <code>Stream</code> 先进行了 <code>map</code> 操作再进行 <code>collect</code> ：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">servers.stream.map(s -&gt; s.substring(<span class="number">1</span>)).collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
+
+<h3 id="reducing"><a href="#reducing" class="headerlink" title="reducing"></a>reducing</h3><p>这是一个函数式接口，是给两个相同类型的量，返回一个跟这两个量相同类型的一个结果，伪表达式为 <code>(T,T) -&gt; T</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//例子：统计每个城市个子最高的人。 </span></span><br><span class="line">Comparator&lt;Person&gt; byHeight = Comparator.comparing(Person::getHeight);</span><br><span class="line">Map&lt;String, Optional&lt;Person&gt;&gt; tallestByCity = people.stream().collect(Collectors.groupingBy(Person::getCity, Collectors.reducing(BinaryOperator.maxBy(byHeight))));</span><br></pre></td></tr></table></figure>
+
+<p>结合最开始给的例子你可以使用 <code>reducing</code> 找出最长的字符串试试。</p>
+<p>上面这一层是根据 <code>Height</code> 属性找最高的 <code>Person</code> ，而且如果这个属性没有初始化值或者没有数据，很有可能拿不到结果所以给出的是 <code>Optional&lt;Person&gt;</code>。 如果我们给出了 <code>identity</code> 作一个基准值，那么我们首先会跟这个基准值进行 <code>BinaryOperator</code> 操作。 比如我们给出高于 2 米 的人作为 <code>identity</code>。 我们就可以统计每个城市不低于 2 米 而且最高的那个人，当然如果该城市没有人高于 2 米则返回基准值<code>identity</code> ：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Comparator&lt;Person&gt; byHeight = Comparator.comparing(Person::getHeight);</span><br><span class="line">Person identity= <span class="keyword">new</span> Person();</span><br><span class="line">identity.setHeight(<span class="number">2</span>.);</span><br><span class="line">identity.setName(<span class="string">"identity"</span>);</span><br><span class="line">Map&lt;String, Person&gt; collect = persons.stream().collect(Collectors.groupingBy(Person::getCity, Collectors.reducing(identity, BinaryOperator.maxBy(byHeight))));</span><br></pre></td></tr></table></figure>
+
+<p>这时候就确定一定会返回一个 <code>Person</code> 了，最起码会是基准值<code>identity</code> 不再是 <code>Optional</code> 。<br>还有些情况，我们想在 <code>reducing</code> 的时候把 <code>Person</code> 的身高先四舍五入一下。这就需要我们做一个映射处理。定义一个 <code>Function&lt;? super T, ? extends U&gt; mapper</code> 来干这个活。那么上面的逻辑就可以变更为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Comparator&lt;Person&gt; byHeight = Comparator.comparing(Person::getHeight);</span><br><span class="line">     Person identity = <span class="keyword">new</span> Person();</span><br><span class="line">     identity.setHeight(<span class="number">2</span>.);</span><br><span class="line">     identity.setName(<span class="string">"identity"</span>);</span><br><span class="line">     <span class="comment">// 定义映射 处理 四舍五入</span></span><br><span class="line">     Function&lt;Person, Person&gt; mapper = ps -&gt; &#123;</span><br><span class="line">         Double height = ps.getHeight();</span><br><span class="line"></span><br><span class="line">         BigDecimal decimal = <span class="keyword">new</span> BigDecimal(height);</span><br><span class="line">         Double d = decimal.setScale(<span class="number">1</span>, BigDecimal.ROUND_HALF_UP).doubleValue();</span><br><span class="line">         ps.setHeight(d);</span><br><span class="line">         <span class="keyword">return</span> ps;</span><br><span class="line">     &#125;;</span><br><span class="line">     Map&lt;String, Person&gt; collect = persons.stream()</span><br><span class="line">             .collect(Collectors.groupingBy(Person::getCity, Collectors.reducing(identity, mapper, BinaryOperator.maxBy(byHeight))));</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+            <a href="/tags/Stream/" rel="tag"># Stream</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Java/Java%E5%B9%B6%E5%8F%91/java-concurrence-AQS/" rel="next" title="Java 并发--AQS">
+                <i class="fa fa-chevron-left"></i> Java 并发--AQS
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/uncategorized/yapi-introduction/" rel="prev" title="yapi-introduction">
+                yapi-introduction <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://wx.qlogo.cn/mmopen/vi_32/25fsGytbXKhewNiaoeI1yvfHWeV7ib7FfvmkO6bw2Azb7A6IkZUzXRmeRkkTH8UumIbhia6eZUP0EakQHfZubzU9w/132"
+                alt="Toner" />
+            
+              <p class="site-author-name" itemprop="name">Toner</p>
+              <p class="site-description motion-element" itemprop="description">toner的个人博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/AlexanderToner" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#中间操作"><span class="nav-text">中间操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#parallel"><span class="nav-text">parallel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#filter"><span class="nav-text">filter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#map-flatMap"><span class="nav-text">map&#x2F;flatMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#peek"><span class="nav-text">peek</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#limit-skip"><span class="nav-text">limit &#x2F;skip</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#distinct-concat"><span class="nav-text">distinct &#x2F;concat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sorted"><span class="nav-text">sorted</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sequential-unordered"><span class="nav-text">sequential() &#x2F;unordered()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结束操作"><span class="nav-text">结束操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#collect-toArray"><span class="nav-text">collect&#x2F;toArray</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#count-max-min"><span class="nav-text">count&#x2F;max&#x2F;min</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#forEach-forEachOrdered"><span class="nav-text">forEach&#x2F;forEachOrdered</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#anyMatch、-allMatch、-noneMatch、-findFirst、-findAny"><span class="nav-text">anyMatch、 allMatch、 noneMatch、 findFirst、 findAny</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Collectors"><span class="nav-text">Collectors</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#类型归纳"><span class="nav-text">类型归纳</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#joining"><span class="nav-text">joining</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#collectingAndThen"><span class="nav-text">collectingAndThen</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#groupingBy"><span class="nav-text">groupingBy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#partitioningBy"><span class="nav-text">partitioningBy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#counting"><span class="nav-text">counting</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#maxBy-minBy"><span class="nav-text">maxBy&#x2F;minBy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#summingInt-Double-Long"><span class="nav-text">summingInt&#x2F;Double&#x2F;Long</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#summarizingInt-Double-Long"><span class="nav-text">summarizingInt&#x2F;Double&#x2F;Long</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mapping"><span class="nav-text">mapping</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reducing"><span class="nav-text">reducing</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2019 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Toner</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count"></span>
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=66565211";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: '35064945',
+            repo: 'gitment-comments',
+            
+            lang: "zh-Hans" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '3e938a6e9c34773ce2f1114d984719ae53b7d8b1',
+            
+                client_id: '0b08d9c5d3745dac567f'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>
